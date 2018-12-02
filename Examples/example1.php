@@ -5,8 +5,7 @@ namespace PdfBuilder;
 use PdfBuilder\Font\Courier;
 use PdfBuilder\Format\A4;
 
-
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 
 $builder = new PdfBuilder(new A4());
