@@ -13,5 +13,4 @@ $builder = new PdfBuilder(new A4());
 $pdf = $builder
   ->drawImage('logo.jpg')
   ->build();
-//$pdf->saveToFile('example2.pdf');
-echo base64_encode($pdf->getAsSting());
+$pdf->saveToFile('example2.pdf');
