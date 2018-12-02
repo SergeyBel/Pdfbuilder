@@ -23,10 +23,12 @@ class PdfBuilder
 
   private $currentPiece;
 
-  public function __construct(PdfFormat $format, $leftMargin = 10, $topMargin = 30)
+  public function __construct(PdfFormat $format = null, $leftMargin = 10, $topMargin = 30)
   {
-    $this->width = $format->getWidth();
-    $this->height = $format->getHeight();
+    if ($format) {
+      $this->width = $format->getWidth();
+      $this->height = $format->getHeight();
+    }
     $this->pages = [];
     $this->currentPiece = new PdfPiece();
     $this->currentFont = new Courier(12);
@@ -89,4 +91,98 @@ class PdfBuilder
     )
       ->build($this->pages);
   }
+
+  /**
+   * @return mixed
+   */
+  public function getWidth()
+  {
+    return $this->width;
+  }
+
+  /**
+   * @param mixed $width
+   * @return PdfBuilder
+   */
+  public function setWidth($width)
+  {
+    $this->width = $width;
+    return $this;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getHeight()
+  {
+    return $this->height;
+  }
+
+  /**
+   * @param mixed $height
+   * @return PdfBuilder
+   */
+  public function setHeight($height)
+  {
+    $this->height = $height;
+    return $this;
+  }
+
+  /**
+   * @return Courier
+   */
+  public function getCurrentFont(): Courier
+  {
+    return $this->currentFont;
+  }
+
+  /**
+   * @param Courier $currentFont
+   * @return PdfBuilder
+   */
+  public function setCurrentFont($currentFont)
+  {
+    $this->currentFont = $currentFont;
+    return $this;
+  }
+
+  /**
+   * @return int
+   */
+  public function getLeftMargin(): int
+  {
+    return $this->leftMargin;
+  }
+
+  /**
+   * @param int $leftMargin
+   * @return PdfBuilder
+   */
+  public function setLeftMargin($leftMargin)
+  {
+    $this->leftMargin = $leftMargin;
+    return $this;
+  }
+
+  /**
+   * @return int
+   */
+  public function getTopMargin(): int
+  {
+    return $this->topMargin;
+  }
+
+  /**
+   * @param int $topMargin
+   * @return PdfBuilder
+   */
+  public function setTopMargin($topMargin)
+  {
+    $this->topMargin = $topMargin;
+    return $this;
+  }
+
+  
+
+
 }
