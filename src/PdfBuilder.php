@@ -182,7 +182,4 @@ class PdfBuilder
     return $this;
   }
 
-  
-
-
 }
