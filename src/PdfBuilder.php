@@ -42,7 +42,7 @@ class PdfBuilder
     return $this;
   }
 
-  public function changePosition($dx, $dy)
+  public function move($dx, $dy)
   {
     $this->currentPiece->addPart(new PdfIndent($dx, $dy));
     return $this;
@@ -73,7 +73,7 @@ class PdfBuilder
     return $this;
   }
 
-  public function newline()
+  public function newLine()
   {
     $this->currentPiece->addPart(new PdfNewline());
     return $this;
