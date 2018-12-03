@@ -1,4 +1,4 @@
-# pdfbuilder
+# Pdfbuilder
 Simple builder for PDF files  
 Requires PHP >= 7.0.
 
