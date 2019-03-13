@@ -77,10 +77,7 @@ class PdfStructure
           $this->x += min($this->width, $piecePart->getX());
           $this->y -= min($this->height, $piecePart->getY());
         } else if ($piecePart instanceof PdfImage) {
-          $contents = $this->writeImage($piecePart);
-          foreach ($contents as $content) {
-            $this->addPage($resource, $content);
-          }
+          $this->writeImage($piecePart);
         } else if ($piecePart instanceof PdfPosition) {
           if ($piecePart->getX())
             $this->x = $piecePart->getX();
@@ -157,7 +154,6 @@ class PdfStructure
 
   private function writeImage(PdfImage $image)
   {
-    $contents = [];
     $this->currentPage->addLine(new ImageLine(
         $this->images[$image->getName()]['id'],
         $image->getWidth(),
@@ -167,7 +163,6 @@ class PdfStructure
       )
     );
     $this->x += $image->getWidth();
-    return $contents;
   }
 
   private function getResources(array $pieces)
