@@ -23,7 +23,7 @@ class PdfBuilder
 
   private $currentPiece;
 
-  public function __construct(PdfFormat $format = null, $leftMargin = 10, $topMargin = 30)
+  public function __construct(PdfFormat $format = null, int $leftMargin = 10, int $topMargin = 30)
   {
     if ($format) {
       $this->width = $format->getWidth();
@@ -42,7 +42,7 @@ class PdfBuilder
     return $this;
   }
 
-  public function move($dx, $dy)
+  public function move(int $dx, int $dy)
   {
     $this->currentPiece->addPart(new PdfIndent($dx, $dy));
     return $this;
@@ -55,7 +55,7 @@ class PdfBuilder
     return $this;
   }
 
-  public function drawImage($file)
+  public function drawImage(string $file)
   {
     $this->currentPiece->addPart(new PdfImage($file));
     return $this;
@@ -67,7 +67,7 @@ class PdfBuilder
     return $this;
   }
 
-  public function setPosition($x = null, $y = null)
+  public function setPosition(int $x = null, int $y = null)
   {
     $this->currentPiece->addPart(new PdfPosition($x, $y));
     return $this;
@@ -104,7 +104,7 @@ class PdfBuilder
    * @param mixed $width
    * @return PdfBuilder
    */
-  public function setWidth($width)
+  public function setWidth(int $width)
   {
     $this->width = $width;
     return $this;
@@ -122,7 +122,7 @@ class PdfBuilder
    * @param mixed $height
    * @return PdfBuilder
    */
-  public function setHeight($height)
+  public function setHeight(int $height)
   {
     $this->height = $height;
     return $this;
@@ -176,7 +176,7 @@ class PdfBuilder
    * @param int $topMargin
    * @return PdfBuilder
    */
-  public function setTopMargin($topMargin)
+  public function setTopMargin(int $topMargin)
   {
     $this->topMargin = $topMargin;
     return $this;
