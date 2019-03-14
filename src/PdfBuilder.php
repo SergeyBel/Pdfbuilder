@@ -137,10 +137,10 @@ class PdfBuilder
   }
 
   /**
-   * @param Courier $currentFont
+   * @param PdfFont $currentFont
    * @return PdfBuilder
    */
-  public function setCurrentFont($currentFont)
+  public function setCurrentFont(PdfFont $currentFont)
   {
     $this->currentFont = $currentFont;
     return $this;
@@ -158,7 +158,7 @@ class PdfBuilder
    * @param int $leftMargin
    * @return PdfBuilder
    */
-  public function setLeftMargin($leftMargin)
+  public function setLeftMargin(int $leftMargin)
   {
     $this->leftMargin = $leftMargin;
     return $this;
