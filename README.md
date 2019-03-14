@@ -92,3 +92,8 @@ $pdf = $builder
   ->write('World')
   ->build();
 ```
+## Tests
+Run command
+```
+phpunit tests
+```
