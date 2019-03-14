@@ -60,13 +60,14 @@ class PdfStructure
 
   public function build(array $pieces)
   {
-    $this->x = $this->getXStartPosition();
-    $this->y = $this->getYStartPosition();
+
 
     $this->getResources($pieces);
     $resource = $this->createResource();
 
     foreach ($pieces as $piece) {
+        $this->x = $this->getXStartPosition();
+        $this->y = $this->getYStartPosition();
       foreach ($piece->getParts() as $piecePart) {
         if ($piecePart instanceof PdfText) {
           $contents = $this->writeText($piecePart->getText(), $piecePart->getFont());
