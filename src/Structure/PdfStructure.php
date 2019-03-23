@@ -11,6 +11,7 @@ use PdfBuilder\Pdf\PdfFont;
 use PdfBuilder\Pdf\PdfImage;
 use PdfBuilder\Pdf\PdfIndent;
 use PdfBuilder\Pdf\PdfNewline;
+use PdfBuilder\Pdf\PdfPiece;
 use PdfBuilder\Pdf\PdfPosition;
 use PdfBuilder\Pdf\PdfText;
 use PdfBuilder\PdfFile;
@@ -42,9 +43,10 @@ class PdfStructure
   private $fonts;
   private $images;
   private $currentPage;
+  private $resource;
 
 
-  public function __construct($width, $height, $leftMargin, $topMargin)
+  public function __construct(float $width, float $height, float $leftMargin, float $topMargin)
   {
     $this->width = $width;
     $this->height = $height;
@@ -60,45 +62,86 @@ class PdfStructure
 
   public function build(array $pieces)
   {
-
-
     $this->getResources($pieces);
-    $resource = $this->createResource();
+    $this->resource = $this->createResource();
 
     foreach ($pieces as $piece) {
-        $this->x = $this->getXStartPosition();
-        $this->y = $this->getYStartPosition();
-      foreach ($piece->getParts() as $piecePart) {
-        if ($piecePart instanceof PdfText) {
-          $contents = $this->writeText($piecePart->getText(), $piecePart->getFont());
-          foreach ($contents as $content) {
-            $this->addPage($resource, $content);
-          }
-        } else if ($piecePart instanceof PdfIndent) {
-          $this->x += min($this->width, $piecePart->getX());
-          $this->y -= min($this->height, $piecePart->getY());
-        } else if ($piecePart instanceof PdfImage) {
-          $this->writeImage($piecePart);
-        } else if ($piecePart instanceof PdfPosition) {
-          if ($piecePart->getX())
-            $this->x = $piecePart->getX();
-          if ($piecePart->getY())
-            $this->y = $piecePart->getY();
-        } else if ($piecePart instanceof PdfNewline) {
-          $this->newline();
-          if ($this->y <= 0)
-          {
-            $this->newpage();
-            $this->addPage($resource, clone $this->currentPage);
-            $this->currentPage = new Content();
-          }
-        }
-      }
-      $this->addPage($resource, $this->currentPage);
-      $this->currentPage = new Content();
+        $this->processPiece($piece);
     }
     return new PdfFile($this->createFileStructure());
   }
+
+  private function processPiece(PdfPiece $piece)
+  {
+      $this->x = $this->getXStartPosition();
+      $this->y = $this->getYStartPosition();
+      foreach ($piece->getParts() as $piecePart) {
+          $this->processPiecePart($piecePart);
+      }
+      $this->addPage($this->resource, $this->currentPage);
+      $this->currentPage = new Content();
+  }
+
+  private function processPiecePart($piecePart)
+  {
+      if ($piecePart instanceof PdfText) {
+          $this->processTextPart($piecePart);
+      } else if ($piecePart instanceof PdfIndent) {
+          $this->processIdentPart($piecePart);
+      } else if ($piecePart instanceof PdfImage) {
+          $this->processImagePart($piecePart);
+      } else if ($piecePart instanceof PdfPosition) {
+          $this->processPositionPart($piecePart);
+      } else if ($piecePart instanceof PdfNewline) {
+          $this->processNewlinePart();
+      }
+  }
+
+  private function processTextPart(PdfText $piecePart)
+  {
+      $contents = $this->writeText($piecePart->getText(), $piecePart->getFont());
+      foreach ($contents as $content) {
+          $this->addPage($this->resource, $content);
+      }
+  }
+
+  private function processIdentPart(PdfIndent $piecePart)
+  {
+      $this->x += min($this->width, $piecePart->getX());
+      $this->y -= min($this->height, $piecePart->getY());
+  }
+
+    private function processImagePart(PdfImage $image)
+    {
+        $this->currentPage->addLine(new ImageLine(
+                                        $this->images[$image->getName()]['id'],
+                                        $image->getWidth(),
+                                        $image->getHeight(),
+                                        $this->x,
+                                        $this->y + $this->lastLineHeight
+                                    )
+        );
+        $this->x += $image->getWidth();
+    }
+
+    private function processPositionPart(PdfPosition $piecePart)
+    {
+        if ($piecePart->getX())
+            $this->x = $piecePart->getX();
+        if ($piecePart->getY())
+            $this->y = $piecePart->getY();
+    }
+
+    private function processNewlinePart()
+    {
+        $this->newline();
+        if ($this->y <= 0)
+        {
+            $this->newpage();
+            $this->addPage($this->resource, clone $this->currentPage);
+            $this->currentPage = new Content();
+        }
+    }
 
   private function createFileStructure()
   {
@@ -112,7 +155,7 @@ class PdfStructure
     return $text;
   }
 
-  private function writeText($text, PdfFont $font)
+  private function writeText(string $text, PdfFont $font)
   {
     $this->lastLineHeight = $font->getSize();
     $contents = [];
@@ -152,19 +195,7 @@ class PdfStructure
     $this->x += $font->textWidth(substr($text, $start, $n - $start));
     return $contents;
   }
-
-  private function writeImage(PdfImage $image)
-  {
-    $this->currentPage->addLine(new ImageLine(
-        $this->images[$image->getName()]['id'],
-        $image->getWidth(),
-        $image->getHeight(),
-        $this->x,
-        $this->y + $this->lastLineHeight
-      )
-    );
-    $this->x += $image->getWidth();
-  }
+  
 
   private function getResources(array $pieces)
   {

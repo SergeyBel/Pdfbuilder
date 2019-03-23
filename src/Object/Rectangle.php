@@ -12,7 +12,7 @@ class Rectangle implements Element
   private $upperRightX;
   private $upperRightY;
 
-  public function __construct($lowLeftX, $lowLeftY, $upperRightX, $upperRightY)
+  public function __construct(float $lowLeftX, float $lowLeftY, float $upperRightX, float $upperRightY)
   {
     $this->lowLeftX = $lowLeftX;
     $this->lowLeftY = $lowLeftY;

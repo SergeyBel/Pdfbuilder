@@ -20,20 +20,19 @@ class PdfBuilder
   private $height;
   private $leftMargin;
   private $topMargin;
+  private $currentFont;
 
   private $currentPiece;
 
-  public function __construct(PdfFormat $format = null, int $leftMargin = 10, int $topMargin = 30)
+  public function __construct(PdfFormat $format, int $leftMargin = 10, int $topMargin = 30)
   {
-    if ($format) {
       $this->width = $format->getWidth();
       $this->height = $format->getHeight();
-    }
-    $this->pages = [];
-    $this->currentPiece = new PdfPiece();
-    $this->currentFont = new Courier(12);
-    $this->leftMargin = $leftMargin;
-    $this->topMargin = $topMargin;
+      $this->pages = [];
+      $this->currentPiece = new PdfPiece();
+      $this->currentFont = new Courier(12);
+      $this->leftMargin = $leftMargin;
+      $this->topMargin = $topMargin;
   }
 
   public function write(string $text)

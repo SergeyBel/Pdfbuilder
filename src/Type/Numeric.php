@@ -7,7 +7,7 @@ class Numeric implements Type
 {
   private $value;
 
-  public function __construct($value)
+  public function __construct(float $value)
   {
     $this->value = $value;
   }

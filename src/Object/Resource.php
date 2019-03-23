@@ -38,12 +38,12 @@ class Resource implements Element
     );
   }
 
-  public function addFont($fontId, BodyObject $font)
+  public function addFont(string $fontId, BodyObject $font)
   {
     $this->fonts[$fontId] = $font;
   }
 
-  public function addImage($imageId, BodyObject $image)
+  public function addImage(string $imageId, BodyObject $image)
   {
     $this->images[$imageId] = $image;
   }

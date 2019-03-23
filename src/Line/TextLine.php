@@ -12,7 +12,7 @@ class TextLine implements Line
   private $fontId;
   private $fontSize;
 
-  public function __construct($text, $x, $y, $fontId, $fontSize)
+  public function __construct(string $text, float $x, float $y, string $fontId, int $fontSize)
   {
     $this->text = $text;
     $this->x = $x;

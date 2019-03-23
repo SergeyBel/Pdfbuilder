@@ -11,7 +11,7 @@ class Trailer extends PdfPart
   private $settings;
   private $xrefOffset;
 
-  public function __construct(Numeric $xrefCount, Reference $root, $xrefOffset)
+  public function __construct(Numeric $xrefCount, Reference $root, int $xrefOffset)
   {
     $this->settings = new Dictionary(
       [

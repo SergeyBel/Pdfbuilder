@@ -25,7 +25,7 @@ class Image implements Element
    * @param $filter
    * @param $data
    */
-  public function __construct($width, $height, $colorSpace, $bitsPerComponent, $filter, $data)
+  public function __construct(float $width, float $height, string $colorSpace, int $bitsPerComponent, string $filter, string $data)
   {
     $this->width = $width;
     $this->height = $height;

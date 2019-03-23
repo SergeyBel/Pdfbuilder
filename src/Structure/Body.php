@@ -14,7 +14,7 @@ class Body extends PdfPart
   private $width;
   private $height;
 
-  public function __construct($width, $height)
+  public function __construct(float $width, float $height)
   {
     $this->width = $width;
     $this->height = $height;

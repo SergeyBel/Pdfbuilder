@@ -11,7 +11,7 @@ class BodyObject
   protected $generation;
   protected $element;
 
-  public function __construct($id, Element $element, $generation = 0)
+  public function __construct(string $id, Element $element, int $generation = 0)
   {
     $this->id = $id;
     $this->element = $element;

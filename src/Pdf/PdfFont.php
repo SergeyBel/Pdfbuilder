@@ -21,7 +21,7 @@ class PdfFont
     $length = strlen($text);
     for ($i = 0; $i < $length; $i++)
       $width += $this->widthTable[$text[$i]];
-    return $width * $this->size / self::SIZE_SCALE_FACTOR;
+    return (float)($width * $this->size) / self::SIZE_SCALE_FACTOR;
   }
 
   public function getName()

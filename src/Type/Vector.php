@@ -17,7 +17,7 @@ class Vector implements Type
     $this->data[] = $type;
   }
 
-  public function getCount()
+  public function getCount(): int
   {
     return count($this->data);
   }

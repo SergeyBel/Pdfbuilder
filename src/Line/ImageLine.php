@@ -12,7 +12,7 @@ class ImageLine implements Line
   private $width;
   private $height;
 
-  public function __construct($id, $width, $height, $x, $y)
+  public function __construct(string $id, float $width, float $height, float $x, float $y)
   {
     $this->id = $id;
     $this->width = $width;
