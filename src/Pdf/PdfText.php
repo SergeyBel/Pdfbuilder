@@ -5,28 +5,29 @@ namespace PdfBuilder\Pdf;
 
 class PdfText
 {
-  private $text;
-  private $font;
+    private $text;
 
-  public function __construct(string $text, PdfFont $font)
-  {
-    $this->text = $text;
-    $this->font = $font;
-  }
+    private $font;
 
-  /**
-   * @return string
-   */
-  public function getText(): string
-  {
-    return $this->text;
-  }
+    public function __construct(string $text, PdfFont $font)
+    {
+        $this->text = $text;
+        $this->font = $font;
+    }
 
-  /**
-   * @return PdfFont
-   */
-  public function getFont(): PdfFont
-  {
-    return $this->font;
-  }
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return PdfFont
+     */
+    public function getFont(): PdfFont
+    {
+        return $this->font;
+    }
 }

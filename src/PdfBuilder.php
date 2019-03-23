@@ -15,170 +15,176 @@ use PdfBuilder\Structure\PdfStructure;
 
 class PdfBuilder
 {
-  private $pages;
-  private $width;
-  private $height;
-  private $leftMargin;
-  private $topMargin;
-  private $currentFont;
+    private $pages;
 
-  private $currentPiece;
+    private $width;
 
-  public function __construct(PdfFormat $format, int $leftMargin = 10, int $topMargin = 30)
-  {
-      $this->width = $format->getWidth();
-      $this->height = $format->getHeight();
-      $this->pages = [];
-      $this->currentPiece = new PdfPiece();
-      $this->currentFont = new Courier(12);
-      $this->leftMargin = $leftMargin;
-      $this->topMargin = $topMargin;
-  }
+    private $height;
 
-  public function write(string $text)
-  {
-    $this->currentPiece->addPart(new PdfText($text, $this->currentFont));
-    return $this;
-  }
+    private $leftMargin;
 
-  public function move(int $dx, int $dy)
-  {
-    $this->currentPiece->addPart(new PdfIndent($dx, $dy));
-    return $this;
-  }
+    private $topMargin;
 
-  public function newPage()
-  {
-    $this->pages[] = clone $this->currentPiece;
-    $this->currentPiece = new PdfPiece();
-    return $this;
-  }
+    private $currentFont;
 
-  public function drawImage(string $file)
-  {
-    $this->currentPiece->addPart(new PdfImage($file));
-    return $this;
-  }
+    private $currentPiece;
 
-  public function setFont(PdfFont $font)
-  {
-    $this->currentFont = $font;
-    return $this;
-  }
+    public function __construct(PdfFormat $format, int $leftMargin = 10, int $topMargin = 30)
+    {
+        $this->width = $format->getWidth();
+        $this->height = $format->getHeight();
+        $this->pages = [];
+        $this->currentPiece = new PdfPiece();
+        $this->currentFont = new Courier(12);
+        $this->leftMargin = $leftMargin;
+        $this->topMargin = $topMargin;
+    }
 
-  public function setPosition(int $x = null, int $y = null)
-  {
-    $this->currentPiece->addPart(new PdfPosition($x, $y));
-    return $this;
-  }
+    public function write(string $text)
+    {
+        $this->currentPiece->addPart(new PdfText($text, $this->currentFont));
+        return $this;
+    }
 
-  public function newLine()
-  {
-    $this->currentPiece->addPart(new PdfNewline());
-    return $this;
-  }
+    public function move(int $dx, int $dy)
+    {
+        $this->currentPiece->addPart(new PdfIndent($dx, $dy));
+        return $this;
+    }
 
-  public function build()
-  {
-    $this->pages[] = $this->currentPiece;
-    return (new PdfStructure(
-      $this->width,
-      $this->height,
-      $this->leftMargin,
-      $this->topMargin
-    )
-    )
-      ->build($this->pages);
-  }
+    public function newPage()
+    {
+        $this->pages[] = clone $this->currentPiece;
+        $this->currentPiece = new PdfPiece();
+        return $this;
+    }
 
-  /**
-   * @return mixed
-   */
-  public function getWidth()
-  {
-    return $this->width;
-  }
+    public function drawImage(string $file)
+    {
+        $this->currentPiece->addPart(new PdfImage($file));
+        return $this;
+    }
 
-  /**
-   * @param mixed $width
-   * @return PdfBuilder
-   */
-  public function setWidth(int $width)
-  {
-    $this->width = $width;
-    return $this;
-  }
+    public function setFont(PdfFont $font)
+    {
+        $this->currentFont = $font;
+        return $this;
+    }
 
-  /**
-   * @return mixed
-   */
-  public function getHeight()
-  {
-    return $this->height;
-  }
+    public function setPosition(int $x = null, int $y = null)
+    {
+        $this->currentPiece->addPart(new PdfPosition($x, $y));
+        return $this;
+    }
 
-  /**
-   * @param mixed $height
-   * @return PdfBuilder
-   */
-  public function setHeight(int $height)
-  {
-    $this->height = $height;
-    return $this;
-  }
+    public function newLine()
+    {
+        $this->currentPiece->addPart(new PdfNewline());
+        return $this;
+    }
 
-  /**
-   * @return Courier
-   */
-  public function getCurrentFont(): Courier
-  {
-    return $this->currentFont;
-  }
+    public function build()
+    {
+        $this->pages[] = $this->currentPiece;
+        return (new PdfStructure($this->width,
+                                 $this->height,
+                                 $this->leftMargin,
+                                 $this->topMargin))->build($this->pages);
+    }
 
-  /**
-   * @param PdfFont $currentFont
-   * @return PdfBuilder
-   */
-  public function setCurrentFont(PdfFont $currentFont)
-  {
-    $this->currentFont = $currentFont;
-    return $this;
-  }
+    /**
+     * @return mixed
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
 
-  /**
-   * @return int
-   */
-  public function getLeftMargin(): int
-  {
-    return $this->leftMargin;
-  }
+    /**
+     * @param mixed $width
+     *
+     * @return PdfBuilder
+     */
+    public function setWidth(int $width)
+    {
+        $this->width = $width;
+        return $this;
+    }
 
-  /**
-   * @param int $leftMargin
-   * @return PdfBuilder
-   */
-  public function setLeftMargin(int $leftMargin)
-  {
-    $this->leftMargin = $leftMargin;
-    return $this;
-  }
+    /**
+     * @return mixed
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
 
-  /**
-   * @return int
-   */
-  public function getTopMargin(): int
-  {
-    return $this->topMargin;
-  }
+    /**
+     * @param mixed $height
+     *
+     * @return PdfBuilder
+     */
+    public function setHeight(int $height)
+    {
+        $this->height = $height;
+        return $this;
+    }
 
-  /**
-   * @param int $topMargin
-   * @return PdfBuilder
-   */
-  public function setTopMargin(int $topMargin)
-  {
-    $this->topMargin = $topMargin;
-    return $this;
-  }
+    /**
+     * @return Courier
+     */
+    public function getCurrentFont(): Courier
+    {
+        return $this->currentFont;
+    }
+
+    /**
+     * @param PdfFont $currentFont
+     *
+     * @return PdfBuilder
+     */
+    public function setCurrentFont(PdfFont $currentFont)
+    {
+        $this->currentFont = $currentFont;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLeftMargin(): int
+    {
+        return $this->leftMargin;
+    }
+
+    /**
+     * @param int $leftMargin
+     *
+     * @return PdfBuilder
+     */
+    public function setLeftMargin(int $leftMargin)
+    {
+        $this->leftMargin = $leftMargin;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTopMargin(): int
+    {
+        return $this->topMargin;
+    }
+
+    /**
+     * @param int $topMargin
+     *
+     * @return PdfBuilder
+     */
+    public function setTopMargin(int $topMargin)
+    {
+        $this->topMargin = $topMargin;
+        return $this;
+    }
 
 }

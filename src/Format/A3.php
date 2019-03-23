@@ -6,8 +6,8 @@ use PdfBuilder\Pdf\PdfFormat;
 
 class A3 extends PdfFormat
 {
-  public function __construct()
-  {
-    parent::__construct(841.89, 1190.55);
-  }
+    public function __construct()
+    {
+        parent::__construct(841.89, 1190.55);
+    }
 }

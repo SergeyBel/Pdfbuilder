@@ -7,17 +7,18 @@ use PdfBuilder\Structure\BodyObject;
 
 class Reference implements Type
 {
-  private $id;
-  private $generation;
+    private $id;
 
-  public function __construct(BodyObject $object)
-  {
-    $this->id = $object->getId();
-    $this->generation = $object->getGeneration();
-  }
+    private $generation;
 
-  public function toString()
-  {
-    return $this->id . ' ' . $this->generation . ' R';
-  }
+    public function __construct(BodyObject $object)
+    {
+        $this->id = $object->getId();
+        $this->generation = $object->getGeneration();
+    }
+
+    public function toString()
+    {
+        return $this->id.' '.$this->generation.' R';
+    }
 }

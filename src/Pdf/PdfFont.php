@@ -4,33 +4,37 @@ namespace PdfBuilder\Pdf;
 
 class PdfFont
 {
-  const SIZE_SCALE_FACTOR = 1000;
-  protected $name;
-  protected $size;
-  protected $widthTable;
+    const SIZE_SCALE_FACTOR = 1000;
 
-  public function __construct($name, $size)
-  {
-    $this->name = $name;
-    $this->size = $size;
-  }
+    protected $name;
 
-  public function textWidth($text)
-  {
-    $width = 0;
-    $length = strlen($text);
-    for ($i = 0; $i < $length; $i++)
-      $width += $this->widthTable[$text[$i]];
-    return (float)($width * $this->size) / self::SIZE_SCALE_FACTOR;
-  }
+    protected $size;
 
-  public function getName()
-  {
-    return $this->name;
-  }
+    protected $widthTable;
 
-  public function getSize()
-  {
-    return $this->size;
-  }
+    public function __construct($name, $size)
+    {
+        $this->name = $name;
+        $this->size = $size;
+    }
+
+    public function textWidth($text)
+    {
+        $width = 0;
+        $length = strlen($text);
+        for ($i = 0; $i < $length; $i++) {
+            $width += $this->widthTable[$text[$i]];
+        }
+        return (float)($width * $this->size) / self::SIZE_SCALE_FACTOR;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getSize()
+    {
+        return $this->size;
+    }
 }

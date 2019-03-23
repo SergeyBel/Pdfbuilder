@@ -5,15 +5,15 @@ namespace PdfBuilder\Type;
 
 class Text implements Type
 {
-  private $str;
+    private $str;
 
-  public function __construct(string $str)
-  {
-    $this->str = $str;
-  }
+    public function __construct(string $str)
+    {
+        $this->str = $str;
+    }
 
-  public function toString()
-  {
-    return '(' . $this->str . ')';
-  }
+    public function toString()
+    {
+        return '('.$this->str.')';
+    }
 }

@@ -8,43 +8,40 @@ use PdfBuilder\Type\Reference;
 
 class Resource implements Element
 {
-  private $fonts;
-  private $images;
+    private $fonts;
 
-  public function __construct()
-  {
-    $this->fonts = [];
-    $this->images = [];
-  }
+    private $images;
 
-  public function toType()
-  {
-    $fontsData = [];
-    foreach ($this->fonts as $key => $font)
+    public function __construct()
     {
-      $fontsData[$key] = new Reference($font);
+        $this->fonts = [];
+        $this->images = [];
     }
 
-    $imagesData = [];
-    foreach($this->images as $key=>$image)
+    public function toType()
     {
-      $imagesData[$key] = new Reference($image);
+        $fontsData = [];
+        foreach ($this->fonts as $key => $font) {
+            $fontsData[$key] = new Reference($font);
+        }
+
+        $imagesData = [];
+        foreach ($this->images as $key => $image) {
+            $imagesData[$key] = new Reference($image);
+        }
+        return new Dictionary([
+                                  'Font' => new Dictionary($fontsData),
+                                  'XObject' => new Dictionary($imagesData),
+                              ]);
     }
-    return new Dictionary(
-      [
-        'Font' => new Dictionary($fontsData),
-        'XObject' => new Dictionary($imagesData)
-      ]
-    );
-  }
 
-  public function addFont(string $fontId, BodyObject $font)
-  {
-    $this->fonts[$fontId] = $font;
-  }
+    public function addFont(string $fontId, BodyObject $font)
+    {
+        $this->fonts[$fontId] = $font;
+    }
 
-  public function addImage(string $imageId, BodyObject $image)
-  {
-    $this->images[$imageId] = $image;
-  }
+    public function addImage(string $imageId, BodyObject $image)
+    {
+        $this->images[$imageId] = $image;
+    }
 }

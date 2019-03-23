@@ -11,32 +11,32 @@ use PdfBuilder\Type\Vector;
 
 class Pages implements Element
 {
-  private $kids;
-  private $mediaBox;
+    private $kids;
 
-  public function __construct(array $kids, Rectangle $mediaBox)
-  {
-    $this->kids = $kids;
-    $this->mediaBox = $mediaBox;
-  }
+    private $mediaBox;
 
-  public function addKid(BodyObject $kid)
-  {
-    $this->kids[] = $kid;
-  }
+    public function __construct(array $kids, Rectangle $mediaBox)
+    {
+        $this->kids = $kids;
+        $this->mediaBox = $mediaBox;
+    }
 
-  public function toType()
-  {
-    $kidsVector = [];
-    foreach ($this->kids as $kid)
-      $kidsVector[] = new Reference($kid);
-    return new Dictionary(
-      [
-        'Type' => new Name('Pages'),
-        'MediaBox' => $this->mediaBox->toType(),
-        'Count' => new Numeric(count($this->kids)),
-        'Kids' => new Vector($kidsVector),
-      ]
-    );
-  }
+    public function addKid(BodyObject $kid)
+    {
+        $this->kids[] = $kid;
+    }
+
+    public function toType()
+    {
+        $kidsVector = [];
+        foreach ($this->kids as $kid) {
+            $kidsVector[] = new Reference($kid);
+        }
+        return new Dictionary([
+                                  'Type' => new Name('Pages'),
+                                  'MediaBox' => $this->mediaBox->toType(),
+                                  'Count' => new Numeric(count($this->kids)),
+                                  'Kids' => new Vector($kidsVector),
+                              ]);
+    }
 }

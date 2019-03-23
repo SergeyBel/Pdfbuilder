@@ -5,29 +5,30 @@ namespace PdfBuilder\Type;
 
 class Vector implements Type
 {
-  private $data;
+    private $data;
 
-  public function __construct(array $data = [])
-  {
-    $this->data = $data;
-  }
+    public function __construct(array $data = [])
+    {
+        $this->data = $data;
+    }
 
-  public function add(Type $type)
-  {
-    $this->data[] = $type;
-  }
+    public function add(Type $type)
+    {
+        $this->data[] = $type;
+    }
 
-  public function getCount(): int
-  {
-    return count($this->data);
-  }
+    public function getCount(): int
+    {
+        return count($this->data);
+    }
 
-  public function toString()
-  {
-    $typesStrings = [];
-    foreach ($this->data as $value)
-      $typesStrings[] = $value->toString();
+    public function toString()
+    {
+        $typesStrings = [];
+        foreach ($this->data as $value) {
+            $typesStrings[] = $value->toString();
+        }
 
-    return '[' . implode(' ', $typesStrings) . ']';
-  }
+        return '['.implode(' ', $typesStrings).']';
+    }
 }
